@@ -1,6 +1,7 @@
 // grab all the pets from the backend 
 
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom' 
 import axios from 'axios' 
 
 const Dashboard = () => {
@@ -21,6 +22,7 @@ const Dashboard = () => {
                         <th>Pet Name</th>
                         <th>Hair Color</th>
                         <th>Age</th>
+                        <th colSpan={2}>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -28,7 +30,7 @@ const Dashboard = () => {
                         pets && 
                             pets.map((pet, i) => (
                                 <tr key={i}>
-                                    <td>{ pet.petName }</td>
+                                    <td><Link to={`/pets/${pet._id}`}>{ pet.petName }</Link></td>
                                     <td>{ pet.hairColor }</td>
                                     <td>{ pet.age }</td>
                                 </tr>
