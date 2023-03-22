@@ -1,6 +1,7 @@
 const PetController = require("../controllers/pet.controller") 
 
 module.exports = app => {
+    app.get("/api/message", PetController.message) 
     app.get("/api/pets", PetController.readAll) 
     app.get("/api/pets/:id", PetController.readOne) 
     app.post("/api/pets", PetController.createOne) 
