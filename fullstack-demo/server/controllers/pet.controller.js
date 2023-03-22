@@ -2,7 +2,7 @@ const { Pet } = require("./../models/pet.model")
 
 // test
 module.exports.message = (req, res) => {
-res.json({message: "message from backend"}) 
+res.json("message from backend") 
 }
 
 // create 
