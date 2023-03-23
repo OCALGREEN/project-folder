@@ -1,17 +1,39 @@
 // grab all the pets from the backend 
 
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom' 
+import { Link, useHistory } from 'react-router-dom' 
 import axios from 'axios' 
 
 const Dashboard = () => {
     
     const [pets, setPets] = useState() 
+    const history = useHistory() 
+    const [refresh, setRefresh] = useState(true) 
+
     useEffect(() => {
         axios.get(`http://localhost:8000/api/pets`)
             .then(res => setPets(res.data))
             .catch(err => console.log(err)) 
-    }, [])
+    }, [refresh])
+
+    // have a refresh state to make sure useEffect gets reloaded
+    const handleDelete1 = (deleteId) => {
+        axios.delete(`http://localhost:8000/api/pets/${deleteId}`)
+            .then(res => {
+                setRefresh(!refresh)
+            })
+            .catch(err => console.log(err)) 
+    }
+
+    // 
+    const handleDelete2 = (deleteId) => {
+        axios.delete(`http://localhost:8000/api/pets/${deleteId}`)
+            .then(res => {
+                const filteredList = pets.filter((pet) => pet._id !== deleteId)
+                setPets(filteredList) 
+            })
+            .catch(err => console.log(err)) 
+    }
 
     return (
         <fieldset>
@@ -34,6 +56,8 @@ const Dashboard = () => {
                                     <td>{ pet.hairColor }</td>
                                     <td>{ pet.age }</td>
                                     <td><Link to={`/pets/${pet._id}/edit`}>Edit</Link></td>
+                                    <td><button onClick={() => handleDelete1(pet._id)}>Delete 1</button></td>
+                                    <td><button onClick={() => handleDelete2(pet._id)}>Delete 2</button></td>
                                 </tr>
                             ))
                     }
