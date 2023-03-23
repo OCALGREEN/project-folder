@@ -33,6 +33,7 @@ const Dashboard = () => {
                                     <td><Link to={`/pets/${pet._id}`}>{ pet.petName }</Link></td>
                                     <td>{ pet.hairColor }</td>
                                     <td>{ pet.age }</td>
+                                    <td><Link to={`/pets/${pet._id}/edit`}>Edit</Link></td>
                                 </tr>
                             ))
                     }
