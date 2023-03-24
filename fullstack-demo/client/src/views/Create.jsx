@@ -13,6 +13,7 @@ const Create = () => {
     const [hairColor, setHairColor] = useState("") 
     const [age, setAge] = useState(0) 
     const history = useHistory() 
+    const [errors, setErrors] = useState([]) 
 
     const handleSubmit = (e) => {
         e.preventDefault() 
@@ -20,7 +21,19 @@ const Create = () => {
             .then(res => {
                 history.push("/pets")
             })
-            .catch(err => console.log(err)) 
+            .catch(err => {
+                const errorResponse = err.response.data.errors 
+                // create an array for the error messages
+                const errorArr = []
+                // errorResponse = all the error keys 
+                for(const key of Object.keys(errorResponse)) {
+                    // grab the error message using the keys and push it 
+                    errorArr.push(errorResponse[key]["message"])
+                }
+                console.log(errorArr) 
+                setErrors(errorArr) 
+            }) 
+            
     }
 
     return (
@@ -44,6 +57,14 @@ const Create = () => {
                 </div>
                 <button>Submit</button>
             </form>
+            {
+                errors && 
+                errors.map((err, i) => {
+                    return (
+                        <p key={i} style={{color:"red"}}>{err}</p>
+                    )
+                })
+            }
         </fieldset>
     )
 }
